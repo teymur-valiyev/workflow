@@ -1,0 +1,36 @@
+version: '3'
+services:
+  gitlab:
+    container_name: gitlab
+    hostname: gitlab
+    image: "gitlab/gitlab-ce"
+    volumes:
+      - "./gitlab/config:/etc/gitlab"
+      - "./gitlab/logs:/var/log/gitlab"
+      - "./gitlab/data:/var/opt/gitlab"
+    restart: always
+    ports:
+      - 80
+      - 22
+      - 443
+
+  jenkins:
+    container_name: jenkins
+    hostname: jenkins
+    image: "jenkins"
+    volumes:
+      - "./jenkins:/var/jenkins_home"
+    restart: always
+    ports:
+      - 8080
+      - 50000
+
+  nexus:
+    container_name: nexus3
+    hostname: nexus3
+    image: "sonatype/nexus3"
+    volumes:
+      - "./nexus-data:/nexus-data"
+    restart: always
+    ports:
+      - 8081
