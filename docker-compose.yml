@@ -27,6 +27,9 @@ services:
     restart: always
     networks:
       - alfanetwork
+    depends_on:
+      - nexus
+      - sonarqube
     ports:
       - "8080:8080"
       - "50000:50000"
@@ -43,6 +46,34 @@ services:
     ports:
       - "8081:8081"
   
+  sonarqube:
+    container_name: sonarqube
+    hostname: sonarqube
+    image: "sonarqube"
+    restart: always
+    networks:
+      - alfanetwork 
+    depends_on:
+      - sonardb
+    ports:
+      - "39000:9000" 
+      - "39092:9092"
+    environment:
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
+      - SONARQUBE_JDBC_USERNAME=sonar
+      - SONARQUBE_JDBC_PASSWORD=sonar
+
+  sonardb:
+    restart: always
+    image: postgres:9.6
+    networks:
+      - alfanetwork
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+
 networks:
   alfanetwork:
     driver: bridge
