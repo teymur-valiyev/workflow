@@ -1,0 +1,13 @@
+testserver ansible_ssh_host=192.168.33.10 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+prodserver ansible_ssh_host=192.168.33.20 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+centos6server ansible_ssh_host=192.168.33.30 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+
+[testservers]
+testserver
+
+[cicdservers]
+prodserver
+
+[datacenter:children]
+testservers
+cicdservers

@@ -1,0 +1,33 @@
+---
+
+- name: Create users
+  user:
+    name: "{{ item.username }}"
+    uid: "{{ item.uid | default(omit) }}"
+    password: "{{ item.password if item.password is defined else '123123' }}"
+    comment: "{{ item.name | default(omit) }}"
+    system: "{{ item.system | default(omit) }}"
+    createhome: "{{ item.home_create | default(users_create_homedirs) }}"
+    append: "{{ item.append | default(omit) }}"
+    shell: "{{ item.shell | default(omit) }}"
+  with_items: "{{ users }}"
+
+- name: Removing users
+  user:
+    name: "{{ item }}"
+    state: absent
+    remove: yes
+  with_items: "{{ users_remove }}"
+
+
+# Build from source
+- name: Check if python is already installed
+  stat: path="{{python_path}}"
+  register: python_installed
+
+- include_tasks: install_python.yml
+  when: not python_build_from_source
+  
+- include_tasks: python_build_from_source.yml
+  when: python_build_from_source 
+  # and python_installed.stat.exists == false

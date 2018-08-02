@@ -1,0 +1,6 @@
+---
+- hosts: centos6server
+  roles: 
+    - cicdconfig
+  sudo: yes
+  gather_facts: no

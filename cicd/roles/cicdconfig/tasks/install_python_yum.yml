@@ -1,0 +1,9 @@
+---
+
+- name: Install dependencies yum
+  yum: name="{{item}}" state=latest
+  with_items: "{{python_dependencies}}"
+
+- name: Install python
+  yum: name=python{{item}} state=present
+  with_items: "{{ python_versions }}"

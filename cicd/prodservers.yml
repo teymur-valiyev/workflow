@@ -1,0 +1,6 @@
+---
+- hosts: cicdservers
+  roles: 
+    - cicdconfig
+  sudo: yes
+  gather_facts: no

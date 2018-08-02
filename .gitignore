@@ -1,3 +1,5 @@
 gitlab
 jenkins
 nexus-data
+cicd/*.retry
+cicd/.vagrant

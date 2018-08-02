@@ -1,0 +1,6 @@
+---
+- hosts: testservers
+  roles: 
+    - docker
+  sudo: yes
+  gather_facts: no

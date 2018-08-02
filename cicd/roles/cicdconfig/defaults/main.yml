@@ -1,0 +1,40 @@
+---
+
+users: 
+  - username: teymur
+    name: Teymur
+    password: 123123
+
+
+users_create_homedirs: yes 
+
+users_remove: []
+
+# Build defaults
+python_configure_prefix: '/usr'
+python_build_from_source: no
+
+python_versions:
+- 2.7.7
+
+# Internals
+python_major_version: "{{python_versions[0]}}"
+python_path: "{{python_configure_prefix}}/bin/python{{python_major_version}}"
+python_tar_dir: "Python-{{python_versions}}"
+python_tar_url: "https://www.python.org/ftp/python/{{python_versions}}/{{python_tar_dir}}.tgz"
+
+python_dependencies:
+- build-essential
+- libbz2-dev
+- libdb-dev
+- libexpat1-dev
+- libffi-dev
+- libgdbm-dev
+- liblzma-dev
+- libncurses-dev
+- libreadline-dev
+- libsqlite3-dev
+- libssl-dev
+- python-dev
+- tk-dev
+- zlib1g-dev

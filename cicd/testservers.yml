@@ -1,0 +1,8 @@
+---
+- hosts: testservers
+  roles: 
+    - cicdconfig
+    - docker
+    - workflow
+  sudo: yes
+  gather_facts: no

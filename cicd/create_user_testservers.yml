@@ -1,0 +1,6 @@
+---
+- hosts: testservers
+  roles: 
+    - cicdconfig
+  sudo: yes
+  gather_facts: no

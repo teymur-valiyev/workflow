@@ -1,78 +1,90 @@
 version: '3'
 services:
-  gitlab:
-    container_name: gitlab
-    hostname: gitlab
-    image: "gitlab/gitlab-ce"
-    volumes:
-      - "./gitlab/config:/etc/gitlab"
-      - "./gitlab/logs:/var/log/gitlab"
-      - "./gitlab/data:/var/opt/gitlab"
-    restart: always
-    networks:
-      - alfanetwork
-    ports:
-      - "80:80"
-      - 22
-      - "443:443"
+  # gitlab:
+  #   container_name: gitlab
+  #   hostname: gitlab
+  #   image: "gitlab/gitlab-ce"
+  #   volumes:
+  #     - "./gitlab/config:/etc/gitlab"
+  #     - "./gitlab/logs:/var/log/gitlab"
+  #     - "./gitlab/data:/var/opt/gitlab"
+  #   restart: always
+  #   networks:
+  #     - alfanetwork
+  #   ports:
+  #     - "80:80"
+  #     - 22
+  #     - "443:443"
 
-  jenkins:
-    container_name: jenkins
-    hostname: jenkins
-    image: "jenkins"
-    volumes:
-      - "./jenkins:/var/jenkins_home"
-      # - /var/run/docker.sock:/var/run/docker.sock
-      # - /usr/bin/docker:/usr/bin/docker
-    restart: always
-    networks:
-      - alfanetwork
-    depends_on:
-      - nexus
-      - sonarqube
-    ports:
-      - "8080:8080"
-      - "50000:50000"
+  # jenkins:
+  #   container_name: jenkins
+  #   hostname: jenkins
+  #   image: "jenkins"
+  #   volumes:
+  #     - "./jenkins:/var/jenkins_home"
+  #     # - /var/run/docker.sock:/var/run/docker.sock
+  #     # - /usr/bin/docker:/usr/bin/docker
+  #   restart: always
+  #   networks:
+  #     - alfanetwork
+  #   depends_on:
+  #     - nexus
+  #     - sonarqube
+  #   ports:
+  #     - "8080:8080"
+  #     - "50000:50000"
 
-  nexus:
-    container_name: nexus3
-    hostname: nexus3
-    image: "sonatype/nexus3"
-    volumes:
-      - "./nexus-data:/nexus-data"
-    restart: always
-    networks:
-      - alfanetwork
-    ports:
-      - "8081:8081"
+  # nexus:
+  #   container_name: nexus3
+  #   hostname: nexus3
+  #   image: "sonatype/nexus3"
+  #   volumes:
+  #     - "./nexus-data:/nexus-data"
+  #   restart: always
+  #   networks:
+  #     - alfanetwork
+  #   ports:
+  #     - "8081:8081"
   
-  sonarqube:
-    container_name: sonarqube
-    hostname: sonarqube
-    image: "sonarqube"
-    restart: always
-    networks:
-      - alfanetwork 
-    depends_on:
-      - sonardb
-    ports:
-      - "39000:9000" 
-      - "39092:9092"
-    environment:
-      - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
-      - SONARQUBE_JDBC_USERNAME=sonar
-      - SONARQUBE_JDBC_PASSWORD=sonar
+  # sonarqube:
+  #   container_name: sonarqube
+  #   hostname: sonarqube
+  #   image: "sonarqube"
+  #   restart: always
+  #   networks:
+  #     - alfanetwork 
+  #   depends_on:
+  #     - sonardb
+  #   ports:
+  #     - "39000:9000" 
+  #     - "39092:9092"
+  #   environment:
+  #     - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
+  #     - SONARQUBE_JDBC_USERNAME=sonar
+  #     - SONARQUBE_JDBC_PASSWORD=sonar
 
-  sonardb:
+  # sonardb:
+  #   restart: always
+  #   image: postgres:9.6
+  #   networks:
+  #     - alfanetwork
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     - POSTGRES_USER=sonar
+  #     - POSTGRES_PASSWORD=sonar
+  tomcat:
+    container_name: tomcat
+    hostname: tomcat
+    image: "tomcat:8.0"
     restart: always
-    image: postgres:9.6
     networks:
       - alfanetwork
     ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=sonar
-      - POSTGRES_PASSWORD=sonar
+      - "8888:8080"
+    volumes:
+      - "./tomcat/webapps:/usr/local/tomcat/webapps"
+
 
 networks:
   alfanetwork:

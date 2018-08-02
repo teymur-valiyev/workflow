@@ -1,0 +1,6 @@
+---
+- hosts: centos6server
+  roles: 
+    - docker
+  sudo: yes
+  gather_facts: no

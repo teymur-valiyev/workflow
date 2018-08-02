@@ -1,0 +1,21 @@
+---
+
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Download python tarball
+  get_url: url="{{python_tar_url}}" dest=/tmp/
+
+- name: Unpack python tarball
+  unarchive: src="/tmp/{{python_tar_dir}}.tgz" dest=/tmp/ copy=no
+
+- name: Ensure python prefix directory exists
+  file: path="{{python_configure_prefix}}" state=directory
+
+- name: Build python
+  shell: "./configure --prefix={{python_configure_prefix}}; make; make install"
+  args:
+    chdir: "/tmp/{{python_tar_dir}}"
